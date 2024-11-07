@@ -1,0 +1,92 @@
+.pageWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+}
+
+.contentArea {
+    width: 375px;
+    height: 100vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    position: relative;
+}
+
+
+@media (min-width: 768px) {
+    .contentArea {
+        width: 50vw;
+        max-width: 600px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .contentArea {
+        width: 375px;
+        max-width: none;
+        padding: 32px;
+    }
+}
+
+
+.backbutton {
+    position: absolute;
+    top: 3vh; 
+    left: 1.4vh;
+    z-index: 10; 
+    background: transparent;
+    border: none;
+    font-size: 5vh;
+    padding: 1vh 1vh;
+    color: #FFC0C0;
+    opacity: 1;
+}
+
+.homeButtonContainer {
+    position: absolute;
+    bottom: 0.1vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15vh; 
+    height: 15vh;
+    background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 6.8%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.homeButtonContainer {
+    position: absolute;
+    bottom: 1vh; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 11vh; 
+    height: 11vh;
+    background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 3%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.homeButton {
+    background: transparent; 
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.iconImage {
+    width: 3.75vh; 
+    height: 4.25vh;
+}

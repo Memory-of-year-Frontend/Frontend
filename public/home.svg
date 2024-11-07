@@ -1,0 +1,8 @@
+<?xml version="1.0" standalone="no"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    width="32pt" height="36pt" viewBox="0 0 32 36"
+    preserveAspectRatio="xMidYMid meet">
+    <g transform="translate(0, 36) scale(0.1, -0.1)" fill="#8A95FD" stroke="none">
+        <path d="M10 10 L16 4 L22 10 L22 30 L10 30 Z" /> <!-- 집 모양 -->
+    </g>
+</svg>
