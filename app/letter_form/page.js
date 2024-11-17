@@ -12,7 +12,7 @@ export default function LetterPage() {
 
   const handleNextPage = () => {
     console.log('From:', from, 'Content:', content);
-    router.push('/NextPage');
+    router.push('/photo_form');
   };
 
   return (
