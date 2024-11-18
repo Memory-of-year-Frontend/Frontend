@@ -1,13 +1,11 @@
-// app/letter_page/page.js
 "use client";
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaPen, FaArrowLeft } from 'react-icons/fa';
+import useStore from '../store/useStore';
 
 export default function LetterPage() {
-  const [name, setName] = useState('');
-  const [selectedColor, setSelectedColor] = useState('#f3d77d'); // 기본 색상
+  const { title, letterColor, setTitle, setLetterColor } = useStore();
   const router = useRouter();
 
   const colors = ['#FF9999', '#FFBD30', '#FF5500', '#344400', '#73D7FF', '#84E8BB', '#D000FF', '#141559', '#143C59', '#230014'];
@@ -17,24 +15,23 @@ export default function LetterPage() {
     const r = parseInt(colorValue.substring(0, 2), 16);
     const g = parseInt(colorValue.substring(2, 4), 16);
     const b = parseInt(colorValue.substring(4, 6), 16);
-    
+
     const lighterR = Math.min(255, r + 30);
     const lighterG = Math.min(255, g + 30);
     const lighterB = Math.min(255, b + 30);
-    
+
     return `rgb(${lighterR}, ${lighterG}, ${lighterB})`;
   };
 
   const handleColorSelect = (color) => {
-    setSelectedColor(color);
+    setLetterColor(color); // Zustand로 상태 업데이트
   };
 
   const handleNextPage = () => {
-    console.log('Name:', name, 'Selected Color:', selectedColor);
-    router.push('/NextPage');
+    router.push('/letter_form');
   };
 
-  const lighterColor = getLighterColor(selectedColor);
+  const lighterColor = getLighterColor(letterColor);
 
   return (
     <div style={{ backgroundColor: 'transparent', padding: '20px', minHeight: '100vh', color: '#FFF', position: 'relative' }}>
@@ -44,12 +41,12 @@ export default function LetterPage() {
       </button>
 
       {/* 이름 입력 필드 */}
-      <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
         <FaPen size={20} style={{ marginLeft: '8px', color: '#FFF' }} />
         <input
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={title} // Zustand 상태 연결
+          onChange={(e) => setTitle(e.target.value)} // Zustand로 상태 업데이트
           placeholder="Memory 이름을 입력해주세요."
           style={{
             flex: 1,
@@ -77,7 +74,7 @@ export default function LetterPage() {
           <div style={{
             width: '100%',
             height: '100%',
-            backgroundColor: selectedColor,
+            backgroundColor: letterColor,
             position: 'absolute',
           }}></div>
 
@@ -123,7 +120,7 @@ export default function LetterPage() {
                   width: '30px',
                   height: '30px',
                   borderRadius: '50%',
-                  border: selectedColor === color ? '3px solid #FFF' : '1px solid #CCC',
+                  border: letterColor === color ? '3px solid #FFF' : '1px solid #CCC',
                   cursor: 'pointer',
                 }}
               />
@@ -154,6 +151,8 @@ export default function LetterPage() {
     </div>
   );
 }
+
+
 
 
 

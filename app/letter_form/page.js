@@ -1,24 +1,22 @@
-// app/letter_page/page.js
+// app/letter_form/page.js
 "use client";
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaPen, FaArrowLeft } from 'react-icons/fa';
+import useStore from '../store/useStore'; // zustand 스토어 import
 
-export default function LetterPage() {
-  const [from, setFrom] = useState('');
-  const [content, setContent] = useState(''); // 책에 적을 내용
+export default function LetterForm() {
+  const { from, content, setFrom, setContent } = useStore(); // zustand 상태 및 setter 함수 가져오기
   const router = useRouter();
 
   const handleNextPage = () => {
-    console.log('From:', from, 'Content:', content);
     router.push('/photo_form');
   };
 
   return (
     <div style={{ backgroundColor: 'transparent', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', color: '#FFF', position: 'relative', padding: '20px' }}>
       {/* 뒤로가기 버튼 */}
-      <button onClick={() => router.back()} style={{ position: 'absolute', top: '20px', left: '20px', background: 'none', border: 'none', color: '#FFF', cursor: 'pointer' }}>
+      <button onClick={() => router.push('/letter_page')} style={{ position: 'absolute', top: '20px', left: '20px', background: 'none', border: 'none', color: '#FFF', cursor: 'pointer' }}>
         <FaArrowLeft size={24} />
       </button>
 
@@ -33,7 +31,7 @@ export default function LetterPage() {
             <input
               type="text"
               value={from}
-              onChange={(e) => setFrom(e.target.value)}
+              onChange={(e) => setFrom(e.target.value)} // Zustand로 상태 업데이트
               placeholder="보낸 사람"
               style={{
                 flex: 1,
@@ -50,7 +48,7 @@ export default function LetterPage() {
           {/* 책 내용 입력 필드 */}
           <textarea
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => setContent(e.target.value)} // Zustand로 상태 업데이트
             placeholder="책에 적을 내용을 작성하세요."
             rows={16}
             style={{
@@ -88,3 +86,4 @@ export default function LetterPage() {
     </div>
   );
 }
+
