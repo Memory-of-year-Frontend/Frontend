@@ -22,7 +22,7 @@ export default function PhotoPage() {
   };
 
   const handleSave = () => {
-    router.push('/next_page'); // 다음 페이지 경로 수정
+    router.push('/preview_album'); // 다음 페이지 경로 수정
   };
 
   const handleBack = () => {
