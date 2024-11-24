@@ -1,0 +1,87 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 50px; /* 제목과 입력 필드 간격 */
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 90%; /* 모바일 화면 대응 */
+    max-width: 300px;
+    align-items: center;
+}
+
+.inputContainer {
+    width: 100%; /* 부모 너비에 맞춤 */
+    margin-bottom: 30px; /* 입력 필드 간격 */
+}
+
+.input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ddd; /* 회색 밑줄 */
+    padding: 10px 5px;
+    font-size: 14px;
+    color: #333;
+    background-color: transparent;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus {
+    border-bottom: 2px solid #ffd700; /* 포커스 시 밑줄 강조 */
+}
+
+.input::placeholder {
+    color: #aaa;
+    font-size: 12px;
+    text-transform: uppercase; /* 대문자 스타일 */
+}
+
+.errorBorder {
+    border-bottom: 2px solid red; /* 에러 발생 시 밑줄 빨간색 */
+}
+
+.submitButton {
+    width: 100%;
+    padding: 15px;
+    background-color: #ffd700;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.submitButton:disabled {
+    background-color: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.submitButton:hover:enabled {
+    background-color: #fcd307;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+}

@@ -1,187 +1,212 @@
-/*해야 할 것(11.17)
-이전 버튼 : 상태 변경 완료
-기타 기능 다듬고
-다이어리 UI 및 페이지 UI */
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import PageLayout from "../components/PageLayout";
+import PageLayout from "/app/components/PageLayout";
 import styles from "./album_custom.module.css";
+import { fetchStickers, createAlbum } from "/utils/api";
 
-export default function Album_Custom() {
+const COLORS = [
+    "#FF9999", "#FFBD30", "#FF5500", "#344400", "#73D7FF", "#84E8BB",
+    "#D000FF", "#FFFB00", "#1AFF5E", "#143C59", "#141559", "#000000"
+];
+
+const COLOR_TO_IMAGE = {
+    "#FF9999": "/pink.png",
+    "#FFBD30": "/salgu.png",
+    "#FF5500": "/orange.png",
+    "#344400": "/deepgreen.png",
+    "#73D7FF": "/skyblue.png",
+    "#84E8BB": "/mint.png",
+    "#D000FF": "/purple.png",
+    "#FFFB00": "/yellow.png",
+    "#1AFF5E": "/green.png",
+    "#143C59": "/darknavy.png",
+    "#141559": "/blue.png",
+    "#000000": "/dark.png",
+};
+
+export default function AlbumCustom() {
     const router = useRouter();
-
+    const [selectedBookImage, setSelectedBookImage] = useState(COLOR_TO_IMAGE["#FF9999"]);
+    const [activePanel, setActivePanel] = useState(0);
     const [albumColor, setAlbumColor] = useState("#FF9999");
     const [albumName, setAlbumName] = useState("");
-    const [isPrivate, setIsPrivate] = useState(true); //
-    const [activePanel, setActivePanel] = useState(""); 
-    const [previousState, setPreviousState] = useState({
-        albumColor: "#FF9999",
-        albumName: "",
-        isPrivate: true
-    });
+    const [isPrivate, setIsPrivate] = useState(true);
+    const [stickers, setStickers] = useState([]);
+    const [selectedSticker, setSelectedSticker] = useState("");
 
-    // 상태 저장
-    const saveState = () => {
-        setPreviousState({
+    const handleColorSelection = (color) => {
+        setAlbumColor(color);
+        setSelectedBookImage(COLOR_TO_IMAGE[color] || "/pink.png");
+    };
+
+    useEffect(() => {
+        const loadStickers = async () => {
+            const data = await fetchStickers();
+            setStickers(data);
+        };
+        loadStickers();
+    }, []);
+
+    const handleNext = () => {
+        if (activePanel < 3) setActivePanel(activePanel + 1);
+    };
+
+    const handleBack = () => {
+        if (activePanel > 0) setActivePanel(activePanel - 1);
+    };
+
+    const handleCreate = async () => {
+        const payload = {
+            title: albumName,
             albumColor,
-            albumName,
-            isPrivate
-        });
-    };
-
-    const handleGoBack = () => {
-        setAlbumColor(previousState.albumColor);
-        setAlbumName(previousState.albumName);
-        setIsPrivate(previousState.isPrivate); 
-    };
-
-    const handleCreateAlbum = async () => {
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/albums/create`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title: albumName,
-                    albumColor,
-                    visibility: isPrivate,
-                }),
-            });
-
-            if (!response.ok) throw new Error("API 호출 실패");
-
-            const result = await response.json();
-            alert("앨범이 성공적으로 생성되었습니다!");
-            router.push("/albums");
-        } catch (error) {
-            console.error("앨범 생성 오류:", error);
+            visibility: isPrivate,
+            stickerUrl: selectedSticker,
+        };
+        const success = await createAlbum(payload);
+        if (success) {
+            alert("앨범이 생성되었습니다!");
+            router.push("/album");
+        } else {
             alert("앨범 생성에 실패했습니다.");
         }
     };
 
-
-    useEffect(() => {
-        saveState(); 
-    }, [albumColor, albumName, isPrivate]); // 상태 변경 시마다 실행됨
-
     return (
         <PageLayout>
             <div className={styles.container}>
-                <h1 className={styles.title}>나만의 앨범을 만들어보세요!</h1>
+                <h1 className={styles.title}>
+                    나만의 앨범을<br />
+                    만들어보세요!
+                </h1>
 
-                {/* 앨범 */}
-                <div
-                    className={styles.albumPreview}
-                    style={{ backgroundColor: albumColor }}
-                >
-                    <p className={styles.albumName}> {albumName || "OO"}&apos;s Memory</p>
+                {/* 앨범 프리뷰 */}
+                <div className={styles.albumPreview}>
+                    <p
+                        className={styles.albumName}
+                        style={{
+                            color: ["#FFBD30", "#84E8BB", "#FFFB00", "#1AFF5E"].includes(albumColor)
+                                ? "black"
+                                : "white",
+                        }}
+                    >
+                        {albumName || "OO"}'s Memory
+                    </p>
+                    <img
+                        src={selectedBookImage || "/pink.png"}
+                        alt="앨범 책 이미지"
+                        className={styles.bookImage}
+                    />
                 </div>
 
-                {/* 버튼들 */}
-                <div className={styles.controls}>
-                    <button
-                        className={styles.navButton}
-                        onClick={() => setActivePanel(activePanel === "color" ? "" : "color")}
-                    >
-                        색 설정
-                    </button>
-
-                    <button
-                        className={styles.navButton}
-                        onClick={() => setActivePanel(activePanel === "custom" ? "" : "custom")}
-                    >
-                        커스텀
-                    </button>
-
-                    <button
-                        className={styles.navButton}
-                        onClick={() => setActivePanel(activePanel === "name" ? "" : "name")}
-                    >
-                        이름 설정
-                    </button>
-
-                    <button
-                        className={styles.navButton}
-                        onClick={() => setActivePanel(activePanel === "visibility" ? "" : "visibility")}
-                    >
-                        공개 설정
-                    </button>
+                {/* 탭 메뉴 */}
+                <div className={styles.tabs}>
+                    {["색", "커스텀", "이름", "설정"].map((tab, index) => (
+                        <span
+                            key={index}
+                            className={`${styles.tab} ${activePanel === index ? styles.selected : ""}`}
+                            onClick={() => setActivePanel(index)}
+                        >
+                            {tab}
+                        </span>
+                    ))}
                 </div>
 
-                {/* 색 패널 */}
-                {activePanel === "color" && (
+                {/* 패널 */}
+                {activePanel === 0 && (
                     <div className={styles.panel}>
-                        <p className={styles.panelTitle}>색 선택</p>
                         <div className={styles.colorPicker}>
-                            {["#FF9999", "#FFBD30", "#FF5500", "#D000FF", "#FFFB00", "#1AFF5E", "#143C59", "#141559", "#230014"].map((color) => (
+                            {COLORS.map((color) => (
                                 <button
                                     key={color}
-                                    className={`${styles.colorButton} ${albumColor === color ? styles.selected : ""}`}
+                                    className={`${styles.colorButton} ${
+                                        albumColor === color ? styles.selected : ""
+                                    }`}
                                     style={{ backgroundColor: color }}
-                                    onClick={() => setAlbumColor(color)}
+                                    onClick={() => handleColorSelection(color)}
                                 />
                             ))}
                         </div>
                     </div>
                 )}
 
-                {/* 커스텀 패널 */}
-                {activePanel === "custom" && (
+                {activePanel === 1 && (
                     <div className={styles.panel}>
-                        <p className={styles.panelTitle}>스티커 추가</p>
-                        <div className={styles.stickerContainer}>
-                            {/* 스티커 추가 옵션 */}
+                        <div className={styles.stickerPicker}>
+                            {stickers.map((sticker) => (
+                                <img
+                                    key={sticker}
+                                    src={sticker}
+                                    className={`${styles.stickerOption} ${
+                                        selectedSticker === sticker ? styles.selected : ""
+                                    }`}
+                                    onClick={() => setSelectedSticker(sticker)}
+                                    alt="스티커"
+                                />
+                            ))}
                         </div>
                     </div>
                 )}
 
-                {/* 이름 패널 */}
-                {activePanel === "name" && (
+                {activePanel === 2 && (
                     <div className={styles.panel}>
-                        <p className={styles.panelTitle}>앨범 이름</p>
-                        <input
-                            type="text"
-                            value={albumName}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                // 글자 제한
-                                const isKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(value);
-                                if (isKorean && value.length <= 6) {
-                                    setAlbumName(value); // 한글: 6글자 제한
-                                } else if (!isKorean && value.length <= 12) {
-                                    setAlbumName(value); // 영어: 12자 제한
-                                }
-                            }}
-                            placeholder="당신의 다이어리 이름은?"
-                            className={styles.nameInput}
-                        />
+                        <div className={styles.namePanel}>
+                            <div className={styles.inputWrapper}>
+                                <img src="/pencile.png" alt="Edit" className={styles.icon} />
+                                <input
+                                    type="text"
+                                    value={albumName}
+                                    onChange={(e) => setAlbumName(e.target.value)}
+                                    placeholder="앨범 이름을 입력하세요"
+                                    className={styles.nameInput}
+                                />
+                            </div>
+                        </div>
                     </div>
                 )}
-
-                {/* 공개 여부 패널 */}
-                {activePanel === "visibility" && (
+                {activePanel === 3 && (
                     <div className={styles.panel}>
-                        <p className={styles.panelTitle}>공개 여부</p>
-                        <button
-                            className={styles.toggleButton}
-                            onClick={() => setIsPrivate(!isPrivate)}
-                        >
-                            {isPrivate ? "비공개" : "공개"}
-                        </button>
+                        <p className={styles.settingsTitle}>*Memory 수</p>
+                        <div className={styles.toggleContainer}>
+                            <button
+                                className={`${styles.toggleButton} ${
+                                    !isPrivate ? styles.selected : ""
+                                }`}
+                                onClick={() => setIsPrivate(false)}
+                            >
+                                공개
+                            </button>
+                            <button
+                                className={`${styles.toggleButton} ${
+                                    isPrivate ? styles.selected : ""
+                                }`}
+                                onClick={() => setIsPrivate(true)}
+                            >
+                                비공개
+                            </button>
+                        </div>
+                        <p className={styles.settingsDescription}>
+                            ! Memory의 내용은 '<span className={styles.highlight}>{albumName || "OO"}</span>'님만 열람 가능합니다.
+                        </p>
                     </div>
                 )}
-
-                {/* 이전 &  저장 */}
+                {/* 버튼 */}
                 <div className={styles.buttonsContainer}>
-                    <button onClick={handleGoBack} className={styles.backButton}>
-                        이전
-                    </button>
-                    <button onClick={handleCreateAlbum} className={styles.saveButton}>
-                        저장
-                    </button>
+                    {activePanel > 0 && (
+                        <button onClick={handleBack} className={styles.actionButton}>
+                            이전
+                        </button>
+                    )}
+                    {activePanel < 3 && (
+                        <button onClick={handleNext} className={styles.actionButton}>
+                            다음
+                        </button>
+                    )}
+                    {activePanel === 3 && (
+                        <button onClick={handleCreate} className={styles.actionButton}>
+                            저장
+                        </button>
+                    )}
                 </div>
             </div>
         </PageLayout>

@@ -4,185 +4,242 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
 }
 
 .title {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #444;
+    font-size: 1.3rem; 
+    line-height: 1.4; 
+    margin-bottom: 30px;
+    text-align: left;
+    align-items: flex-start;
+    align-self: flex-start;
+    margin-left: 3px;
+    color: #FFFFFF;
+    font-weight: 400;
 }
 
 .albumPreview {
-    width: 200px;
-    height: 250px;
+    width: 210px; /* 기준 너비 */
+    height: 280px;
     position: relative;
-    border-radius: 10px;
-    border: 2px solid #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    border-radius: 10px;
     overflow: hidden;
-    background-color: #ddd;
+}
+.bookImage {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    display: block;
 }
 
 .albumName {
-    font-size: 1.2rem;
-    color: white;
-    font-weight: bold;
-}
-
-.sticker {
-    width: 40px;
-    height: 40px;
     position: absolute;
+    top: 12%;
+    left: 21%;
+    color: white;
+    font-size: 1.5rem;
+    font-style: italic;
+    font-family: 'Georgia', serif;
+    transform: rotate(-7deg); 
+    z-index: 2; 
+    transition: color 0.3s ease;
 }
 
-.controls {
+
+
+.tabs {
     display: flex;
-    gap: 10px;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.navButton {
-    background-color: #f8f8f8;
-    padding: 10px;
-    border-radius: 5px;
+.tab {
+    font-size: 1rem;
+    color: #FFFFFF;
     cursor: pointer;
-    transition: all 0.3s;
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: color 0.3s ease, background-color 0.3s ease; 
 }
 
-.navButton:hover {
-    background-color: #e8e8e8;
+.tab:hover {
+    color: #ffffff;
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.6);
 }
 
-.panel {
-    width: 100%;
-    max-width: 400px;
-    padding: 15px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    animation: slideDown 0.3s ease-in-out;
-    margin-bottom: 20px;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.panelTitle {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+.tab.selected {
     font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8),
+                0px 0px 15px rgba(255, 255, 255, 0.8)
 }
+
 
 .colorPicker {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
     margin-top: 10px;
 }
 
 .colorButton {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     cursor: pointer;
+    border: 2px solid #FFF;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .colorButton:hover {
     transform: scale(1.1);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.6);
 }
 
-.selected {
-    border: 3px solid black;
+.colorButton.selected {
+    border: 3px solid #FFFFFF;
 }
 
-.nameInput {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 10px;
-}
 
-.stickerPicker {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.stickerOption {
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.stickerOption:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.toggleButton {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-}
-
-.toggleButton:hover {
-    background-color: #0056b3;
-}
 .buttonsContainer {
     display: flex;
-    gap: 10px; /* 버튼들 사이 간격 설정 */
-    justify-content: center; /* 버튼들을 가운데 정렬 */
+    justify-content: space-between; 
+    gap: 20px; 
+    margin-top: 30px;
+    width: 100%;
+}
+
+
+.actionButton {
+    background: linear-gradient(to bottom, #FFFFFF, #FFD7D7);
+    color: #A60000;
+    font-weight: bold;
+    padding: 10px 30px; 
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    font-size: 1rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.actionButton:hover {
+    background: linear-gradient(to bottom, #FFD7D7, #FFAAAA);
+    box-shadow: 0px 4px 12px rgba(255, 85, 85, 0.8);
+}
+
+.namePanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     margin-top: 20px;
 }
 
-.saveButton,
-.backButton {
-    padding: 8px 15px; /* 버튼 크기를 줄이기 위한 수정 */
-    font-size: 0.9rem; /* 글자 크기 줄이기 */
-    border-radius: 5px;
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 250px;
+    border-bottom: 1px solid white;
+    padding: 5px 0;
+}
+
+
+.nameInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 1rem;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+
+.nameInput::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+
+.icon {
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    width: auto; /* 버튼의 크기를 자동으로 설정 */
-    max-width: 160px; /* 최대 너비를 설정하여 너무 길어지지 않도록 */
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
 }
 
-.saveButton {
-    background-color: #28a745;
+.icon:hover {
+    opacity: 1;
+}
+
+
+.settingsTitle {
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: left; 
+    width: 100%;
+    margin-left: 20px; 
+    font-weight: 400;
+}
+
+
+.toggleContainer {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.toggleButton {
+    width: 150px; 
+    padding: 12px 0;
+    border-radius: 3px; 
+    border: 2px solid #CCCCCC;
+    background-color: white;
+    color: #808080; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.toggleButton.selected {
+    background-color: #337832;
     color: white;
+    border-color:#337832;
 }
 
-.saveButton:hover {
-    background-color: #218838;
+
+.settingsDescription {
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    text-align: left;
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 20px;
+    font-weight: 400;
 }
 
-.backButton {
-    background-color: #007bff;
-    color: white;
+
+.highlight {
+    font-weight: bold;
+    color: #ffffff;
 }
 
-.backButton:hover {
-    background-color: #0056b3;
-}

@@ -1,24 +1,26 @@
-/*건들이지 말기*/
-
 "use client";
 
 import { useEffect, useRef } from "react";
-import Head from "next/head"; // Head 컴포넌트 추가
+import Head from "next/head";
 import "./globals.css";
 import { usePathname } from "next/navigation";
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname(); // 현재 경로를 확인
+  const pathname = usePathname();
   const canvasRef = useRef(null);
 
+
+  const excludedPaths = ["/login", "/join_membership", "/forgot_password"];
+  const isExcluded = excludedPaths.includes(pathname);
+
   useEffect(() => {
+    if (isExcluded) return;
+
     const COUNT = 15;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    let width = window.innerWidth; 
+    let width = window.innerWidth;
     let height = window.innerHeight;
-    let active = true;
-    let offScreenCount = 0;
 
     const resizeCanvas = () => {
       width = window.innerWidth;
@@ -38,12 +40,12 @@ export default function RootLayout({ children }) {
     };
 
     Snowflake.prototype.reset = function () {
-      this.x = Math.random() * width; 
-      this.y = Math.random() * -height; 
-      this.vy = 1.7 + Math.random() * 0.2; // 속도
-      this.vx = (Math.random() - 0.5) * 0.15; // 흔들림
-      this.r = 8 + Math.random() * 10; // 크기 무작위
-      this.o = 0.5 + Math.random() * 0.5; // 투명도 무작위
+      this.x = Math.random() * width;
+      this.y = Math.random() * -height;
+      this.vy = 1.7 + Math.random() * 0.2;
+      this.vx = (Math.random() - 0.5) * 0.15;
+      this.r = 8 + Math.random() * 10;
+      this.o = 0.5 + Math.random() * 0.5;
     };
 
     canvas.style.position = "absolute";
@@ -58,14 +60,10 @@ export default function RootLayout({ children }) {
 
     function update() {
       if (canvas.width !== width || canvas.height !== height) {
-        resizeCanvas(); 
+        resizeCanvas();
       }
 
       ctx.clearRect(0, 0, width, height);
-
-      if (!active) return;
-
-      offScreenCount = 0;
 
       for (let i = 0; i < COUNT; i++) {
         const snowflake = snowflakes[i];
@@ -88,7 +86,6 @@ export default function RootLayout({ children }) {
 
         if (snowflake.y > height) {
           snowflake.reset();
-          offScreenCount++;
         }
 
         if (snowflake.x < 0 || snowflake.x > width) {
@@ -96,26 +93,8 @@ export default function RootLayout({ children }) {
         }
       }
 
-      // 눈송이 1/2 정도 사라지면 새 배열 생성
-      if (offScreenCount >= COUNT / 2) {
-        for (let i = 0; i < COUNT; i++) {
-          snowflakes[i].reset(); 
-        }
-      }
-
       requestAnimationFrame(update);
     }
-
-    window.requestAnimFrame = (function () {
-      return (
-        window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        function (callback) {
-          window.setTimeout(callback, 1000 / 60);
-        }
-      );
-    })();
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas, false);
@@ -123,21 +102,21 @@ export default function RootLayout({ children }) {
     update();
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);  
+      window.removeEventListener("resize", resizeCanvas);
     };
-  }, []);
-
-  const isPage = pathname === "/";
+  }, [isExcluded]);
 
   return (
-    <html lang="en">
+    <html lang="ko" className={isExcluded ? "excluded" : ""}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <body>
+      <body className={isExcluded ? "excluded" : ""}>
         <div className="container">
-          <canvas ref={canvasRef} />
-          <div className={isPage ? 'snowBottomPage' : 'snowBottomDefault'}></div>
+          {!isExcluded && <canvas ref={canvasRef} />}
+          {!isExcluded && (
+            <div className={pathname === "/" ? "snowBottomPage" : "snowBottomDefault"}></div>
+          )}
           {children}
         </div>
       </body>

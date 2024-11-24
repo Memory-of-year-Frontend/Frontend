@@ -18,7 +18,7 @@ const buttonConditions = {
     },
     '/album_custom': {
         showBackButton: true,
-        showHomeButton: true,
+        showHomeButton: false,
     },
     // '/페이지 추가: {
     //     showBackButton: true,

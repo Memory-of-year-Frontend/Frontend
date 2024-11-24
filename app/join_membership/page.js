@@ -23,6 +23,9 @@ const [touched, setTouched] = useState({
 
   const router = useRouter(); // useRouter 훅 사용
 
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   //입력 규칙
 const validateEmail = (userName) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,7 +75,7 @@ const handleSubmit = async (e) => {
     if (!isFormValid) return;
 
     try {
-    const response = await apiClient.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, { 
+    const response = await apiClient.post(`${BASE_URL}/api/auth/register`, { 
         username: userName,
         password: password,
         nickname: nickname,
