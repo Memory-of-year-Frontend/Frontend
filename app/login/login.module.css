@@ -1,0 +1,92 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.h1 {
+    font-size: 1.8rem;
+    color: #000000;
+    margin-bottom: 200px; 
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 300px;
+    align-items: center;
+}
+
+.form input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 5px;
+    font-size: 14px;
+    color: #333;
+    background-color: transparent;
+    outline: none;
+    margin-bottom: 30px; 
+    transition: border-color 0.3s ease;
+}
+
+.form input:focus {
+    border-bottom: 2px solid #ffd700;
+}
+
+.form input::placeholder {
+    color: #aaa;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.submitButton {
+    width: 150%; 
+    padding: 15px;
+    background-color: #ffd700;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.submitButton:hover {
+    background-color: #fcd307;
+}
+
+.options {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+}
+
+.options a {
+    font-size: 12px;
+    color: #555;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+    text-align: center;
+}
