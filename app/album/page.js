@@ -29,28 +29,25 @@ export default function Album() {
 
     useEffect(() => {
         const loadAlbum = async () => {
-            const token = localStorage.getItem("token");
-            if (token) {
-                setIsLoggedIn(true);
-                const homeData = await fetchHomeData();
-                if (homeData) {
-                    setAlbum(homeData);
-                    setAlbumTitle(homeData.title || "OO's Memory");
-                    setAlbumImage(COLOR_TO_IMAGE[homeData.albumColor] || "/pink.png");
-                }
-            } else {
-                setIsLoggedIn(false);
-                const albumId = window.location.pathname.split("/").pop();
-                const albumData = await fetchAlbumDetails(albumId);
-                if (albumData) {
-                    setAlbum(albumData);
-                    setAlbumTitle(albumData.title || "OO's Memory");
-                    setAlbumImage(COLOR_TO_IMAGE[albumData.albumColor] || "/pink.png");
+            const params = new URLSearchParams(window.location.search);
+            const albumId = params.get("albumId");
+            if (albumId) {
+                try {
+                    const albumData = await fetchAlbumDetails(albumId); // API 호출 함수
+                    if (albumData) {
+                        setAlbum(albumData);
+                        setAlbumTitle(albumData.title || "OO's Memory");
+                        setAlbumImage(COLOR_TO_IMAGE[albumData.albumColor] || "/pink.png");
+                    }
+                } catch (error) {
+                    console.error("앨범 데이터를 불러오는 중 에러 발생:", error.message);
+                    alert("앨범 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
                 }
             }
         };
         loadAlbum();
     }, []);
+    
 
     const handleMemoryButton = () => {
         router.push("/letter_page");

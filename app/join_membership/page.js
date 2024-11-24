@@ -41,7 +41,6 @@ const validateNickname = (nickname) => {
     return nickname.length >= 2 && nickname.length <= 8;
 };
 
-  //회원가입 입력칸 주의 문구 생성
 useEffect(() => {
     const isEmailValid = validateEmail(userName);
     const isPasswordValid = validatePassword(password);

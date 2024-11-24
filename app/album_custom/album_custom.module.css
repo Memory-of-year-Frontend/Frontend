@@ -20,7 +20,7 @@
 }
 
 .albumPreview {
-    width: 210px; /* 기준 너비 */
+    width: 210px; 
     height: 280px;
     position: relative;
     display: flex;
@@ -243,3 +243,57 @@
     color: #ffffff;
 }
 
+.stickerPicker {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #FFD7D7 #FFFFFF;
+    
+}
+
+.stickerPicker img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    cursor: pointer;
+    background-color: #FFD7D7;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.stickerPicker img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 205, 205, 0.8);
+}
+
+.stickerPicker img.selected {
+    border: 2px solid #FFD7D7;
+    border-radius: 10px;
+}
+
+.albumPreview {
+    position: relative;
+    width: 210px;
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.selectedSticker {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 60%; 
+    left: 55%;
+    transform: translate(-50%, -50%);
+    pointer-events: none; 
+    z-index: 3;
+    overflow: hidden;
+}

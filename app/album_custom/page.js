@@ -42,8 +42,13 @@ export default function AlbumCustom() {
 
     useEffect(() => {
         const loadStickers = async () => {
-            const data = await fetchStickers();
-            setStickers(data);
+            try {
+                const data = await fetchStickers();
+                setStickers(data);
+            } catch (error) {
+                console.error("스티커 데이터를 불러오는 중 에러 발생:", error.message);
+                alert("스티커 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+            }
         };
         loadStickers();
     }, []);
@@ -63,12 +68,16 @@ export default function AlbumCustom() {
             visibility: isPrivate,
             stickerUrl: selectedSticker,
         };
-        const success = await createAlbum(payload);
-        if (success) {
-            alert("앨범이 생성되었습니다!");
-            router.push("/album");
-        } else {
-            alert("앨범 생성에 실패했습니다.");
+    
+        try {
+            const success = await createAlbum(payload);
+            if (success) {
+                alert("앨범이 생성되었습니다!");
+                router.push(`/album?albumId=${success.albumId}`);
+            }
+        } catch (error) {
+            alert("앨범 생성에 실패했습니다. 다시 시도해주세요.");
+            console.error(error);
         }
     };
 
@@ -79,7 +88,6 @@ export default function AlbumCustom() {
                     나만의 앨범을<br />
                     만들어보세요!
                 </h1>
-
 
                 <div className={styles.albumPreview}>
                     <p
@@ -97,6 +105,13 @@ export default function AlbumCustom() {
                         alt="앨범 책 이미지"
                         className={styles.bookImage}
                     />
+                    {selectedSticker && (
+                        <img
+                            src={selectedSticker}
+                            alt="선택된 스티커"
+                            className={styles.selectedSticker}
+                        />
+                    )}
                 </div>
 
                 <div className={styles.tabs}>
@@ -130,20 +145,20 @@ export default function AlbumCustom() {
 
                 {activePanel === 1 && (
                     <div className={styles.panel}>
-                        <div className={styles.stickerPicker}>
-                            {stickers.map((sticker) => (
-                                <img
-                                    key={sticker}
-                                    src={sticker}
-                                    className={`${styles.stickerOption} ${
-                                        selectedSticker === sticker ? styles.selected : ""
-                                    }`}
-                                    onClick={() => setSelectedSticker(sticker)}
-                                    alt="스티커"
-                                />
-                            ))}
-                        </div>
+                    <div className={styles.stickerPicker}>
+                        {stickers.map((sticker) => (
+                            <img
+                                key={sticker}
+                                src={sticker}
+                                className={`${styles.stickerOption} ${
+                                    selectedSticker === sticker ? styles.selected : ""
+                                }`}
+                                onClick={() => setSelectedSticker(sticker)}
+                                alt="스티커"
+                            />
+                        ))}
                     </div>
+                </div>
                 )}
 
                 {activePanel === 2 && (
@@ -162,6 +177,7 @@ export default function AlbumCustom() {
                         </div>
                     </div>
                 )}
+
                 {activePanel === 3 && (
                     <div className={styles.panel}>
                         <p className={styles.settingsTitle}>*Memory 수</p>
