@@ -80,7 +80,7 @@ export default function AlbumCustom() {
                     만들어보세요!
                 </h1>
 
-                {/* 앨범 프리뷰 */}
+
                 <div className={styles.albumPreview}>
                     <p
                         className={styles.albumName}
@@ -99,7 +99,6 @@ export default function AlbumCustom() {
                     />
                 </div>
 
-                {/* 탭 메뉴 */}
                 <div className={styles.tabs}>
                     {["색", "커스텀", "이름", "설정"].map((tab, index) => (
                         <span
@@ -112,7 +111,6 @@ export default function AlbumCustom() {
                     ))}
                 </div>
 
-                {/* 패널 */}
                 {activePanel === 0 && (
                     <div className={styles.panel}>
                         <div className={styles.colorPicker}>
@@ -190,7 +188,7 @@ export default function AlbumCustom() {
                         </p>
                     </div>
                 )}
-                {/* 버튼 */}
+
                 <div className={styles.buttonsContainer}>
                     {activePanel > 0 && (
                         <button onClick={handleBack} className={styles.actionButton}>

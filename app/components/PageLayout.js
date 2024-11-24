@@ -20,6 +20,10 @@ const buttonConditions = {
         showBackButton: true,
         showHomeButton: false,
     },
+    '/album': {
+        showBackButton: false,
+        showHomeButton: false,
+    },
     // '/페이지 추가: {
     //     showBackButton: true,
     //     showHomeButton: true,
