@@ -53,7 +53,7 @@ export default function Album() {
     }, []);
 
     const handleMemoryButton = () => {
-        router.push("/letter_form");
+        router.push("/letter_page");
     };
 
     const handleNavigateToPreview = () => {
