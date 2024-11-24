@@ -35,7 +35,6 @@ const handleSubmit = async (e) => {
 return (
     <PageLayout>
     <div className={styles.container}>
-        <h1 className={styles.title}>비밀번호 찾기</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputContainer}>
             <input

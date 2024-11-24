@@ -9,17 +9,16 @@
 }
 
 .h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.8rem;
     color: #000000;
-    margin-bottom: 50px; /* 제목과 입력 필드 간격 */
+    margin-bottom: 200px; 
     text-align: center;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    width: 90%; /* 모바일 화면 대응 */
+    width: 90%;
     max-width: 300px;
     align-items: center;
 }
@@ -27,28 +26,28 @@
 .form input {
     width: 100%;
     border: none;
-    border-bottom: 1px solid #ddd; /* 회색 밑줄 */
+    border-bottom: 1px solid #ddd;
     padding: 10px 5px;
     font-size: 14px;
     color: #333;
     background-color: transparent;
     outline: none;
-    margin-bottom: 30px; /* 입력 필드 간격 */
+    margin-bottom: 30px; 
     transition: border-color 0.3s ease;
 }
 
 .form input:focus {
-    border-bottom: 2px solid #ffd700; /* 포커스 시 밑줄 강조 */
+    border-bottom: 2px solid #ffd700;
 }
 
 .form input::placeholder {
     color: #aaa;
     font-size: 12px;
-    text-transform: uppercase; /* 대문자 스타일 */
+    text-transform: uppercase;
 }
 
 .submitButton {
-    width: 100%;
+    width: 150%; 
     padding: 15px;
     background-color: #ffd700;
     font-size: 16px;
@@ -59,6 +58,7 @@
     cursor: pointer;
     margin-top: 20px;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .submitButton:hover {

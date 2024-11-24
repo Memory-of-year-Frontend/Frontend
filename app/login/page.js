@@ -57,26 +57,27 @@ return (
     <PageLayout>
     <div className={styles.container}>
         <h1>로그인</h1>
-        <form onSubmit={handleSubmit}>
-        <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="USER NAME"
-            required
-        />
-        <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="PASSWORD"
-            required
-        />
-        <button type="submit" className={styles.submitButton}>
-            로그인하기
-        </button>
-        {error && <p className={styles.errorMessage}>{error}</p>}
-        </form>
+        <form onSubmit={handleSubmit} className={styles.form}>
+    <input
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="USER NAME"
+        required
+    />
+    <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="PASSWORD"
+        required
+    />
+    <button type="submit" className={styles.submitButton}>
+        로그인하기
+    </button>
+    {error && <p className={styles.errorMessage}>{error}</p>}
+</form>
+
         <div className={styles.options}>
         <a onClick={handleForgotPasswordRedirect}>Forgot Password?</a>
         <a onClick={handleRegisterRedirect}>회원가입</a>
