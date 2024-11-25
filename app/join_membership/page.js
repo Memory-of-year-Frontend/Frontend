@@ -83,7 +83,7 @@ const handleSubmit = async (e) => {
 
       if (response.data.id) { // 회원 가입 성공
         setSuccess(true);
-        router.push("/album_custom"); // 회원가입 성공 후 /album_custom으로 리다이렉트
+        router.push("/login"); // 회원가입 성공 후 /album_custom으로 리다이렉트
     } else {
         setError("Username already taken");
     }

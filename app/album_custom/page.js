@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PageLayout from "/app/components/PageLayout";
 import styles from "./album_custom.module.css";
-import { fetchStickers, createAlbum } from "/utils/api";
+import { fetchStickers, createAlbum, fetchLetters  } from "/utils/api";
 
 const COLORS = [
     "#FF9999", "#FFBD30", "#FF5500", "#344400", "#73D7FF", "#84E8BB",

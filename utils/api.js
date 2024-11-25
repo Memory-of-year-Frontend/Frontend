@@ -81,3 +81,27 @@ export const fetchAlbumDetails = async (albumId) => {
         throw error;
     }
 };
+
+
+
+export async function fetchLetters(albumId) {
+    const token = localStorage.getItem("AccessToken");
+    try {
+        const response = await fetch(`/api/albums/${albumId}/letters`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch letters: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Failed to fetch letters:", error);
+        throw error; 
+    }
+}
