@@ -6,7 +6,7 @@ import { FaPen, FaArrowLeft } from 'react-icons/fa';
 import useStore from '../store/useStore'; // zustand 스토어 import
 
 export default function LetterForm() {
-  const { from, content, setFrom, setContent } = useStore(); // zustand 상태 및 setter 함수 가져오기
+  const { author, content, setAuthor, setContent } = useStore(); // zustand 상태 및 setter 함수 가져오기
   const router = useRouter();
 
   const handleNextPage = () => {
@@ -30,8 +30,8 @@ export default function LetterForm() {
             <FaPen size={14} style={{ color: '#000', marginRight: '8px' }} />
             <input
               type="text"
-              value={from}
-              onChange={(e) => setFrom(e.target.value)} // Zustand로 상태 업데이트
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)} // Zustand로 상태 업데이트
               placeholder="보낸 사람"
               style={{
                 flex: 1,
