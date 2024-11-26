@@ -26,49 +26,52 @@ export default function Album() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
     const [lettersCount, setLettersCount] = useState(0);
-    const albumId = new URLSearchParams(window.location.search).get("albumId");
+    const albumId = typeof window !== "undefined" 
+        ? new URLSearchParams(window.location.search).get("albumId") 
+        : null;
 
     useEffect(() => {
+        if (!albumId) {
+            alert("앨범 ID가 존재하지 않습니다. URL을 확인해주세요.");
+            router.push("/");
+            return;
+        }
+
         const loadAlbumData = async () => {
             const token = localStorage.getItem("AccessToken");
-
-            if (!albumId) {
-                console.error("앨범 ID가 존재하지 않습니다. URL을 확인해주세요.");
-                return;
-            }
-
             try {
                 const albumData = await fetchAlbumDetails(albumId, {
                     method: "GET",
                     headers: token ? { Authorization: `Bearer ${token}` } : undefined,
                 });
 
-                if (albumData) {
-                    setAlbum(albumData);
-                    setIsLoggedIn(!!token);
-                    setIsOwner(albumData.ownAlbum);
+                if (!albumData) throw new Error("앨범 데이터가 비어 있습니다.");
 
-                    if (albumData.visibility) {
-                        const letters = await fetchLetters(albumId);
-                        setLettersCount(letters.length);
-                    }
+                setAlbum(albumData);
+                setIsLoggedIn(!!token);
+                setIsOwner(albumData.ownAlbum);
+
+                if (albumData.visibility) {
+                    const letters = await fetchLetters(albumId);
+                    setLettersCount(letters.length);
                 }
             } catch (error) {
                 console.error("앨범 데이터를 불러오는 중 에러 발생:", error.message);
+                alert("앨범 데이터를 불러오지 못했습니다. URL을 확인해주세요.");
             }
         };
 
         loadAlbumData();
     }, [albumId]);
 
-    const handleMemoryButton = () => {
-        router.push("/letter_page");
+    const handleShareLink = () => {
+        const shareUrl = `${window.location.origin}/album?albumId=${albumId}`;
+        navigator.clipboard.writeText(shareUrl);
+        alert("링크가 클립보드에 복사되었습니다!");
     };
 
-    const handleNavigateToPreview = () => {
-        if (album) {
-            router.push(`/preview_form/${album.albumId}`);
-        }
+    const handleMemoryButton = () => {
+        router.push(`/letter_page?albumId=${albumId}`);
     };
 
     const renderContent = () => {
@@ -77,20 +80,19 @@ export default function Album() {
         }
 
         const backgroundImage = COLOR_TO_IMAGE[album.albumColor] || "/pink.png";
-        const albumTitle = album.title || "OO's Memory";
+        const albumTitle = album.title ? `${album.title}'s Memory` : "OO's Memory";
         const description = isOwner
             ? `*앨범은 12월 25일에 오픈됩니다. Memory: ${lettersCount}`
             : album.visibility
-            ? `*현재 저장된 Memory 수: ${lettersCount}`
-            : "*Memory 개수는 비공개로 설정되었습니다.";
+            ? `*Memory 수: ${lettersCount}`
+            : " *앨범은 12월 25일에 오픈됩니다. *Memory 개수는 비공개로 설정되었습니다.";
 
         return (
-            <div className={styles.albumWrapper}>
+            <div className={styles.container}>
                 <h1 className={styles.title}>Memory Of Year</h1>
                 <div
                     className={styles.albumPreview}
                     style={{ backgroundImage: `url(${backgroundImage})` }}
-                    onClick={isOwner ? handleNavigateToPreview : null}
                 >
                     <p className={styles.albumName}>{albumTitle}</p>
                 </div>
@@ -98,7 +100,7 @@ export default function Album() {
                 {isOwner ? (
                     <button
                         className={styles.shareButton}
-                        onClick={handleNavigateToPreview}
+                        onClick={handleShareLink}
                     >
                         링크 공유하기
                     </button>
@@ -106,7 +108,7 @@ export default function Album() {
                     <button
                         className={styles.memoryButton}
                         onClick={handleMemoryButton}
-                        disabled={isLoggedIn}
+                        disabled={!isLoggedIn}
                     >
                         Memory 남기기
                     </button>
@@ -117,7 +119,7 @@ export default function Album() {
 
     return (
         <PageLayout>
-            <div className={styles.container}>{renderContent()}</div>
+            {renderContent()}
         </PageLayout>
     );
 }

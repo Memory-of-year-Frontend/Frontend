@@ -3,12 +3,18 @@
 import { useRouter } from 'next/navigation';
 import { FaPen, FaArrowLeft } from 'react-icons/fa';
 import useStore from '../store/useStore';
+import { useEffect } from 'react';
 
 export default function LetterPage() {
-  const { title, letterColor, setTitle, setLetterColor } = useStore();
+  const { title, letterColor, setTitle, setLetterColor, setAlbumId  } = useStore();
   const router = useRouter();
 
   const colors = ['#FF9999', '#FFBD30', '#FF5500', '#344400', '#73D7FF', '#84E8BB', '#D000FF', '#141559', '#143C59', '#230014'];
+  const albumId = new URLSearchParams(window.location.search).get('albumId');
+
+  useEffect(() => {
+    if (albumId) setAlbumId(albumId);
+  }, [albumId]);
 
   const getLighterColor = (color) => {
     const colorValue = color.slice(1); // # 제거
@@ -26,6 +32,7 @@ export default function LetterPage() {
   const handleColorSelect = (color) => {
     setLetterColor(color); // Zustand로 상태 업데이트
   };
+
 
   const handleNextPage = () => {
     router.push('/letter_form');

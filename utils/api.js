@@ -8,7 +8,7 @@ export const fetchStickers = async () => {
         throw new Error("AccessToken이 없습니다.");
     }
 
-    const response = await fetch("http://3.107.207.24:8080/api/stickers", {
+    const response = await fetch("http://52.63.140.24:8080/api/stickers", {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`,
@@ -26,25 +26,30 @@ export const fetchStickers = async () => {
 export const createAlbum = async (payload) => {
     const token = localStorage.getItem("AccessToken");
 
-    if (!token) {
-        throw new Error("AccessToken이 없습니다.");
+    try {
+        const response = await fetch("/api/albums/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                ...(token && { Authorization: `Bearer ${token}` }),
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            console.error("서버 응답 에러:", errorResponse);
+            throw new Error(`앨범 생성 실패: ${response.status} - ${errorResponse.message}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("API 호출 에러:", error.message);
+        throw error;
     }
-
-    const response = await fetch("http://3.107.207.24:8080/api/albums/create", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return true;
 };
+
+
 
 
 export async function fetchHomeData() {
@@ -64,24 +69,22 @@ export async function fetchHomeData() {
     }
 }
 
-export const fetchAlbumDetails = async (albumId) => {
+export const fetchAlbumDetails = async (albumId, options = {}) => {
     try {
-        const response = await fetch(`/api/albums/${albumId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        console.log("API 호출 시작: /api/albums/" + albumId); 
+        const response = await fetch(`/api/albums/${albumId}`, options);
+
         if (!response.ok) {
-            throw new Error("앨범 데이터를 불러올 수 없습니다.");
+            console.error("API 응답 에러:", response.status, await response.text());
+            throw new Error(`앨범 조회 실패: ${response.statusText}`);
         }
+
         return await response.json();
     } catch (error) {
-        console.error("API 호출 실패:", error);
+        console.error("API 호출 중 에러:", error.message);
         throw error;
     }
 };
-
 
 
 export async function fetchLetters(albumId) {

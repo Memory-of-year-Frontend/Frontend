@@ -70,16 +70,20 @@ export default function AlbumCustom() {
         };
     
         try {
-            const success = await createAlbum(payload);
-            if (success) {
+            const response = await createAlbum(payload);
+            if (response.albumId) {
                 alert("앨범이 생성되었습니다!");
-                router.push(`/album?albumId=${success.albumId}`);
+                router.push(`/album?albumId=${response.albumId}`);
+            } else {
+                throw new Error("앨범 생성 응답에 ID가 없습니다.");
             }
         } catch (error) {
             alert("앨범 생성에 실패했습니다. 다시 시도해주세요.");
-            console.error(error);
+            console.error("앨범 생성 중 에러:", error.message);
         }
     };
+    
+    
 
     return (
         <PageLayout>
