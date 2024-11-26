@@ -56,8 +56,8 @@ export default function Album() {
                     setLettersCount(letters.length);
                 }
             } catch (error) {
-                console.error("앨범 데이터를 불러오는 중 에러 발생:", error.message);
-                alert("앨범 데이터를 불러오지 못했습니다. URL을 확인해주세요.");
+                console.error("데이터를 불러오는 중 에러 발생:", error.message);
+                alert("데이터를 불러오지 못했습니다. URL을 확인해주세요.");
             }
         };
 
@@ -90,11 +90,22 @@ export default function Album() {
         return (
             <div className={styles.container}>
                 <h1 className={styles.title}>Memory Of Year</h1>
-                <div
-                    className={styles.albumPreview}
-                    style={{ backgroundImage: `url(${backgroundImage})` }}
-                >
-                    <p className={styles.albumName}>{albumTitle}</p>
+                <div className={styles.albumWrapper}>
+                    <div
+                        className={styles.albumPreview}
+                        style={{ backgroundImage: `url(${backgroundImage})` }}
+                    >
+                        <p className={styles.albumName}>{albumTitle}</p>
+
+                        {/* 스티커를 앨범 위에 표시 */}
+                        {album.stickerUrl && (
+                            <img
+                                src={album.stickerUrl}
+                                alt="앨범 스티커"
+                                className={styles.sticker}
+                            />
+                        )}
+                    </div>
                 </div>
                 <p className={styles.description}>{description}</p>
                 {isOwner ? (

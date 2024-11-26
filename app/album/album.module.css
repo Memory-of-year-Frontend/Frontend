@@ -41,15 +41,27 @@
 
 .albumName {
     position: absolute;
-    top: 13%;
-    left: 25%;
+    top: 14%;
+    left: 23%;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-style: italic;
     font-family: 'Georgia', serif;
     transform: rotate(-6deg); 
     z-index: 2; 
     transition: color 0.3s ease;
+}
+
+
+.sticker {
+    position: absolute;
+    align-items: center;
+    width: 125px; 
+    height: 125px;
+    top : 40%;
+    left : 26%;
+    z-index: 3;
+    pointer-events: none;
 }
 
 .description {
